@@ -1,31 +1,41 @@
 # Prepair DB
 mysql://localhost:3306
+
 CREATE SCHEMA low_profile; //for input to dump(csv)
+
 CREATE SCHEMA low_test; //for test from dump(csv)
+
 CREATE SCHEMA high_profile; //for input to dump(csv)
+
 CREATE SCHEMA high_test; //for test from dump(csv)
 
-for all schema,
+## for all schema,
+
 \schema\create.sql
 
-for low_profile,
+## for low_profile,
+
 \data\low_concurrency\metadata.sql
 \data\low_concurrency\observation_low_concurrency.sql (recommand SQL splitter, it takes 10hrs)
 \data\low_concurrency\semantic_observation_low_concurrency.sql (recommand SQL splitter, it takes 10hrs)
 
 for high_profile,
 \data\high_concurrency\metadata.sql
+
 \data\high_concurrency\observation_high_concurrency.sql (recommand SQL splitter, it takes 20hrs)
+
 \data\high_concurrency\semantic_observation_high_concurrency.sql (recommand SQL splitter, it takes 20hrs)
 
-postgreSQL (soon..)
+## postgreSQL (soon..)
 
 # Prepair Java
 JDK 10
-Eclipse Oxygen 3
+
+Eclipse Oxygen.3A
 
 # DumpGenerator (low_profile -> dump/*/*.csv)
 20 days : 20 mins = 3 mins : 125 ms
+
 so, dump 20 days * 480 seqs (every 3 mins)
 
 ex) select id, temperature, timeStamp, sensor_id from thermometerobservation where timeStamp >= '2017-11-08 00:00:00' and timeStamp < '2017-11-08 00:03:00';
@@ -41,6 +51,7 @@ run every 125ms -> run threads (insert)
 
 # Multiprogramming Level
 com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections"
+
 -> set global max_connections = 200;
 
 # SET TRANSACTION ISOLATION LEVEL
