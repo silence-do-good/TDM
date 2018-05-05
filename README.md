@@ -10,16 +10,16 @@ CREATE SCHEMA high_profile; //for input to dump(csv)
 CREATE SCHEMA high_test; //for test from dump(csv)
 
 ## for all schema,
-
 \schema\create.sql
 
 ## for low_profile,
-
 \data\low_concurrency\metadata.sql
+
 \data\low_concurrency\observation_low_concurrency.sql (recommand SQL splitter, it takes 10hrs)
+
 \data\low_concurrency\semantic_observation_low_concurrency.sql (recommand SQL splitter, it takes 10hrs)
 
-for high_profile,
+## for high_profile,
 \data\high_concurrency\metadata.sql
 
 \data\high_concurrency\observation_high_concurrency.sql (recommand SQL splitter, it takes 20hrs)
@@ -43,16 +43,16 @@ ex) select id, temperature, timeStamp, sensor_id from thermometerobservation whe
 # Simulator (dump/*/*.csv -> low_test)
 run every 125ms -> run threads (insert)
 
-# During simulation, select count tables
+## During simulation, select count tables
 \sql\SELECT_COUNT_TABLES.sql
 
-# After simulation, truncate tables (low_test only!)
+## After simulation, truncate tables (low_test only!)
 \sql\TRUNCATE_TABLES.sql
 
-# Multiprogramming Level
+## Multiprogramming Level
 com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections"
 
 -> set global max_connections = 200;
 
-# SET TRANSACTION ISOLATION LEVEL
+## SET TRANSACTION ISOLATION LEVEL
 https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html
