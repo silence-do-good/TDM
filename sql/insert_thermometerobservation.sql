@@ -1,1 +1,1 @@
-insert into thermometerobservation(id, temperature, timeStamp, sensor_id) values (?,?,?,?);
+insert into select thermometerobservation(id, temperature, timeStamp, sensor_id) values (?,?,?,?);
