@@ -1,0 +1,4 @@
+
+SELECT timeStamp, currentmilliwatts
+FROM WeMoObservation 
+WHERE timestamp>'2017-11-21T19:42:00Z' AND timestamp<'2017-11-22T19:42:00Z' AND SENSOR_ID=ANY(array['024a3278_1e25_4f9d_b190_747002ca215e','0c9569f4_27b3_42e3_8d69_746d5af4fbb1','7843ba48_b79e_4cc3_899d_6fb1026c8d84','88ac4b93_6568_4f25_988e_95c9593522b9','e23206f0_dde2_456c_b025_f62c73419039'])
