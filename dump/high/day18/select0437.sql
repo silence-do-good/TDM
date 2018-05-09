@@ -1,0 +1,4 @@
+
+SELECT timeStamp, clientid
+FROM WiFiAPObservation 
+WHERE timestamp>'2017-11-17T04:37:00Z' AND timestamp<'2017-11-18T04:37:00Z' AND SENSOR_ID=ANY(array['2c278556_68da_47b8_a159_08de8eb183ad','3142_clwa_2065','832c1537_257d_4514_a39f_1b1171797014','3141_clwb_1600','3143_clwa_3209'])
