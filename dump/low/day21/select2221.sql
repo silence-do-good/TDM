@@ -1,0 +1,6 @@
+
+SELECT Avg(timeSpent) as avgTimeSpent FROM 
+	(SELECT date_trunc('day', so.timeStamp), count(*)*10 as timeSpent 
+         FROM PRESENCE so, Infrastructure infra, Infrastructure_Type infraType 
+         WHERE so.location = infra.id AND infra.INFRASTRUCTURE_TYPE_ID = infraType.id AND infraType.name = 'Female Restroom' AND so.semantic_entity_id = 'ba9c73ab_9bda_4076_bb13_d7f90e6cddb8' 
+         GROUP BY  date_trunc('day', so.timeStamp)) AS timeSpentPerDay
