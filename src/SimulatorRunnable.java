@@ -12,7 +12,6 @@ public class SimulatorRunnable implements Runnable {
 		token = new StringTokenizer(line,",");
 	}
 	
-	@Override
 	public void run() {
 		//MySQL
 		try {
