@@ -1,0 +1,4 @@
+
+SELECT timeStamp, temperature
+FROM ThermometerObservation 
+WHERE timestamp>'2017-11-11T20:15:00Z' AND timestamp<'2017-11-12T20:15:00Z' AND SENSOR_ID=ANY(array['c4a19ef5_5707_4fd0_8a09_ec667f2607b8','bb9136ba_681d_44b2_9c64_3b982101dee0','4f3af687_7504_4b52_8941_753b892328b2','58944634_3934_46c3_ad57_c38f5f4ea3e1','5d27156b_3d41_415a_bd64_78fdf39e153a'])

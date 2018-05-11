@@ -1,0 +1,4 @@
+
+SELECT ci.INFRASTRUCTURE_ID 
+FROM SENSOR sen, COVERAGE_INFRASTRUCTURE ci 
+WHERE sen.id=ci.SENSOR_ID AND sen.id='e365dcfa_51ff_4ca5_9bd2_c0dcbeedc3ee'

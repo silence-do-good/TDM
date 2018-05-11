@@ -1,0 +1,3 @@
+
+SELECT timeStamp, temperature FROM ThermometerOBSERVATION o 
+WHERE timestamp>'2017-11-14T06:26:00Z' AND timestamp<'2017-11-15T06:26:00Z' AND temperature>=30 AND temperature<=58
