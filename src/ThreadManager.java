@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class ThreadManager {
-	private int numberOfThreads = 20;
+	private int numberOfThreads = 80;
 	private int available = 20;
-	
+	private int numberOfThreadsExecuted = 0;
 	public int isThreadAvailable()
 	{
 		if(available>0)
@@ -31,6 +31,7 @@ public class ThreadManager {
 		}
 		synchronized(this)
 		{
+				// add time taken also here....
 			available += 1;
 		}
 		return 0;

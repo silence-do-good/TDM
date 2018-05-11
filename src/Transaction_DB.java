@@ -17,6 +17,7 @@ public class Transaction_DB implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
+			// TODO we have to generate the CSV values for the plots here....
 			Class.forName("com.mysql.jdbc.Driver");
 			// autocommit off
 			
