@@ -126,7 +126,7 @@ public class Transaction {
 	    		 values+=vals.get(j++);
 	    		 String query = "INSERT INTO "+ currentfile + " VALUES ("+values+" );";
 	    		 ret.add(query);
-	    		 //System.out.println(query);
+	    		 System.out.println(query);
 	    		 
 	    	 }
 	    	 //break;
