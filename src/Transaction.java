@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class Transaction {
 	private int transactionunit = 10;
 	private int maxconns = 10;
-	String basefolder = "D:\\cs223\\project1\\dump\\dump\\low";
+	String basefolder = "dump\\low";
 	String thermo="thermometerobservation";
 	String wemo = "wemoobservation";
 	String wifiap = "wifiapobservation";
@@ -89,7 +89,7 @@ public class Transaction {
 	    	 while(s.hasNext())
 	    	 {
 	    		 
-	    		 vals.add("'"+s.next()+"'");
+	    		 vals.add("'"+s.next().trim()+"'");
 	    		 //System.out.println(vals.get(x++));
 	    	 }
 	    	 int j=0;
@@ -113,7 +113,7 @@ public class Transaction {
 	    		 else
 	    			 currentfile=pres;
 	    	 }
-	    	 //System.out.println(vals.size());
+	    	 System.out.println("333 "+vals.size());
 	    	 while(j<vals.size())
 	    	 {
 	    		 String values = "";
@@ -140,7 +140,8 @@ public class Transaction {
 	    	 s.useDelimiter("\\Z");
 	    	 while(s.hasNext())
 	    	 {
-	    		 System.out.println(s.next());
+	    		 String query = s.next().trim();
+	    		 if(query.length()>0) ret.add(query);
 	    	 }
 	     }
 		     

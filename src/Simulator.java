@@ -42,8 +42,9 @@ public class Simulator {
 		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		 LocalDateTime lt = LocalDateTime.of(y,mo,d,h,m,s);
 		 String currtime = lt.format(formatter);
-		 System.out.println(currtime);
+		 System.out.println("111 "+currtime);
 		//timer.scheduleAtFixedRate(new Tranaction(timer), 0, 125); //repeat every 125ms
+		final ThreadManager tm = new ThreadManager();
 		
 		timer.scheduleAtFixedRate(new TimerTask() {
 			
@@ -64,10 +65,10 @@ public class Simulator {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime lt = LocalDateTime.of(y,mo,d,h,m,s);
 				String currtime = lt.format(formatter);
-				System.out.println(currtime);
+				System.out.println("222 "+currtime);
 				Transaction t = new Transaction();
 				try {
-					t.getSQLQueries(currtime);
+					tm.getDBThread(t.getSQLQueries(currtime));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -75,10 +76,10 @@ public class Simulator {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//System.out.println("Inside timer");
+				System.out.println("Inside timer");
 			}
 		}, 0, 42);
-//		System.out.println("Simulator is started.");
+		System.out.println("Simulator is started.");
 	}
 
 }

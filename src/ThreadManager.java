@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class ThreadManager {
-	private int numberOfThreads = 80;
-	private int available = 20;
+	private int numberOfThreads = 100;
+	private int available = 100;
 	private int numberOfThreadsExecuted = 0;
 	public int isThreadAvailable()
 	{
@@ -12,6 +12,7 @@ public class ThreadManager {
 	}
 	public int getDBThread(ArrayList<String> input)
 	{
+		System.out.println("1 available="+available);
 		synchronized(this)
 		{
 			if(available <= 0)
@@ -20,20 +21,24 @@ public class ThreadManager {
 			}
 			available -= 1;
 		}
+		System.out.println("2 available="+available);
 		Transaction_DB tr = new Transaction_DB(input);
 		Thread t = new Thread(tr);
 		t.start();
+		System.out.println("3 available="+available);
 		try {
 			t.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("4 available="+available);
 		synchronized(this)
 		{
 				// add time taken also here....
 			available += 1;
 		}
+		System.out.println("5 available="+available);
 		return 0;
 	}
 }
