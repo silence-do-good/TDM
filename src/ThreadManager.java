@@ -2,8 +2,13 @@ import java.util.ArrayList;
 
 public class ThreadManager {
 	//private int numberOfThreads = 100;
-	private int available = 100;
+	private int available = 200;
 	//private int numberOfThreadsExecuted = 0;
+	private ArrayList<TimeRecord> timeList;
+	public ThreadManager(ArrayList<TimeRecord> timeList) {
+		this.timeList = timeList;
+	}
+	
 	public int isThreadAvailable()
 	{
 		if(available>0)
@@ -12,7 +17,7 @@ public class ThreadManager {
 	}
 	public int getDBThread(ArrayList<String> input)
 	{
-		System.out.println("1 available="+available);
+		//System.out.println("1 available="+available);
 		synchronized(this)
 		{
 			if(available <= 0)
@@ -21,24 +26,24 @@ public class ThreadManager {
 			}
 			available -= 1;
 		}
-		System.out.println("2 available="+available);
-		Transaction_DB tr = new Transaction_DB(input);
+		//System.out.println("2 available="+available);
+		Transaction_DB tr = new Transaction_DB(input, timeList);
 		Thread t = new Thread(tr);
 		t.start();
-		System.out.println("3 available="+available);
+		//System.out.println("available="+available);
 		try {
 			t.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("4 available="+available);
+		//System.out.println("4 available="+available);
 		synchronized(this)
 		{
 				// add time taken also here....
 			available += 1;
 		}
-		System.out.println("5 available="+available);
+		//System.out.println("5 available="+available);
 		return 0;
 	}
 }

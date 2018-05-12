@@ -7,14 +7,16 @@ public class Transaction_DB implements Runnable {
 
 	private ArrayList<String> statements;
 	private String sql;
+	private ArrayList<TimeRecord> timeList;
 	
 	public Transaction_DB()
 	{
 		statements = null;
 	}
-	public Transaction_DB(ArrayList<String> input)
+	public Transaction_DB(ArrayList<String> input, ArrayList<TimeRecord> timeList)
 	{
 		statements = new ArrayList<String>(input);
+		this.timeList = timeList;
 	}
 	public void run() {
 		// TODO Auto-generated method stub
@@ -22,10 +24,12 @@ public class Transaction_DB implements Runnable {
 			// TODO we have to generate the CSV values for the plots here....
 			Class.forName("com.mysql.jdbc.Driver");
 			
+			long startTime = System.currentTimeMillis();
+			
 			//for loop till statements.size()
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/low_test?user=root&password=1004");
+			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/low_test?user=root&password=1004&useSSL=false");
 			connect.setAutoCommit(false); // autocommit off
-			//connect.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); //Level 0
+			connect.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); //Level 0
 			for(String sql : statements) {
 				this.sql = sql;
 				PreparedStatement statement = connect.prepareStatement(sql);
@@ -34,6 +38,9 @@ public class Transaction_DB implements Runnable {
 			// commit
 			connect.commit();
 			connect.close();
+			
+			long endTime = System.currentTimeMillis();
+			timeList.add(new TimeRecord(startTime, endTime, statements.size()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("sql="+sql);

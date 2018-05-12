@@ -15,6 +15,8 @@ public class Transaction {
 	String wifiap = "wifiapobservation";
 	String occ = "occupancy";
 	String pres= "presence";
+	
+	
 	public ArrayList<String> getSQLQueries(String timestamp) throws FileNotFoundException, ParseException
 	{
 		ArrayList<String> ret=new ArrayList<String>();
@@ -32,7 +34,7 @@ public class Transaction {
 //	     day=day + timestamp.charAt(m.end()-2);
 //	     day=day + timestamp.charAt(m.end()-1);
 	     day=day + new SimpleDateFormat("dd").format(date);
-	     System.out.println(day);
+	     //System.out.println(day);
 	     
 	     String folder = basefolder + "\\" + day+"\\";
 	     File f = new File(folder);
@@ -79,7 +81,7 @@ public class Transaction {
 	     {
 	    	 //System.out.println(files[i].getAbsolutePath());
 	    	 String fpath=files[i].getAbsolutePath();
-	    	 System.out.println(fpath);
+	    	 //System.out.println(fpath);
 	    	 Scanner s = new Scanner(new File(fpath));
 	    	 s.useDelimiter(",|\\n");
 	    	 ArrayList<String> vals = new ArrayList<String>();
@@ -111,7 +113,7 @@ public class Transaction {
 	    		 else
 	    			 currentfile=pres;
 	    	 }
-	    	 System.out.println("333 "+vals.size());
+	    	 //System.out.println("333 "+vals.size());
 	    	 while(j<vals.size())
 	    	 {
 	    		 String values = "";
@@ -139,7 +141,12 @@ public class Transaction {
 	    	 while(s.hasNext())
 	    	 {
 	    		 String query = s.next().trim();
-	    		 if(query.length()>0) ret.add(query);
+	    		 if(query.length()>0) {
+	    			 //only for MySQL
+	    			 query = query.replaceAll("=ANY\\(array\\[", " in \\(");
+	    			 query = query.replaceAll("\\]\\)", "\\)");
+	    			 ret.add(query);
+	    		 }
 	    	 }
 	    	 s.close();
 	     }
@@ -153,7 +160,6 @@ public class Transaction {
 		try {
 			t.getSQLQueries("2017-11-08 23:03:06");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
