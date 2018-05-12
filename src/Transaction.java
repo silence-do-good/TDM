@@ -6,11 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 public class Transaction {
-	private int transactionunit = 10;
-	private int maxconns = 10;
+	//private int transactionunit = 10;
+	//private int maxconns = 10;
 	String basefolder = "dump\\low";
 	String thermo="thermometerobservation";
 	String wemo = "wemoobservation";
@@ -20,9 +18,9 @@ public class Transaction {
 	public ArrayList<String> getSQLQueries(String timestamp) throws FileNotFoundException, ParseException
 	{
 		ArrayList<String> ret=new ArrayList<String>();
-		String pattern = "\\d+-\\d+-\\d+";
-		Pattern p =Pattern.compile(pattern);
-		Matcher m = p.matcher(timestamp);
+		//String pattern = "\\d+-\\d+-\\d+";
+		//Pattern p =Pattern.compile(pattern);
+		//Matcher m = p.matcher(timestamp);
 //		System.out.println("Found " + m.groupCount() + " patterns");
 		
 		 //while(m.find()) {
@@ -82,10 +80,10 @@ public class Transaction {
 	    	 //System.out.println(files[i].getAbsolutePath());
 	    	 String fpath=files[i].getAbsolutePath();
 	    	 System.out.println(fpath);
-	    	 Scanner s=new Scanner(new File(fpath));
+	    	 Scanner s = new Scanner(new File(fpath));
 	    	 s.useDelimiter(",|\\n");
 	    	 ArrayList<String> vals = new ArrayList<String>();
-	    	 int x=0;
+	    	 //int x=0;
 	    	 while(s.hasNext())
 	    	 {
 	    		 
@@ -129,24 +127,23 @@ public class Transaction {
 	    		 //System.out.println(query);
 	    		 
 	    	 }
-	    	 //break;
+	    	 s.close();
 	     }
 	     
 	     for(int i=0;i<sqlfiles.length;i++)
 	     {
 	    	 String fpath=sqlfiles[i].getAbsolutePath();
 	    	 //System.out.println(fpath);
-	    	 Scanner s=new Scanner(new File(fpath));
+	    	 Scanner s = new Scanner(new File(fpath));
 	    	 s.useDelimiter("\\Z");
 	    	 while(s.hasNext())
 	    	 {
 	    		 String query = s.next().trim();
 	    		 if(query.length()>0) ret.add(query);
 	    	 }
+	    	 s.close();
 	     }
-		     
-		     
-		  //}
+		 
 		
 		return ret;
 	}

@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class ThreadManager {
-	private int numberOfThreads = 100;
+	//private int numberOfThreads = 100;
 	private int available = 100;
-	private int numberOfThreadsExecuted = 0;
+	//private int numberOfThreadsExecuted = 0;
 	public int isThreadAvailable()
 	{
 		if(available>0)
