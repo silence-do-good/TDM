@@ -1,4 +1,3 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,10 +30,11 @@ public class Simulator {
 	static ArrayList<TimeRecord> timeList = new ArrayList<TimeRecord>();
 	
 	public static void main(String[] args) throws ParseException {
+		String lowHigh = "high";
 		//truncate table first
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/low_test?user=root&password=1004&useSSL=false");
+			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+lowHigh+"_test?user=root&password=1004&useSSL=false");
 			PreparedStatement statement = connect.prepareStatement("TRUNCATE TABLE thermometerobservation");
 			statement.execute();
 			statement = connect.prepareStatement("TRUNCATE TABLE wemoobservation");
@@ -47,6 +47,12 @@ public class Simulator {
 			statement.execute();
 			connect.close();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
@@ -87,20 +93,41 @@ public class Simulator {
 						h=0;
 					}
 				}
-				if(d==8 && h==3) {
+				if(d==13 && h==0) {
 					timer.cancel();
 					generateResult();
 				}
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime lt = LocalDateTime.of(y,mo,d,h,m,s);
-				String currtime = lt.format(formatter);
+				final String currtime = lt.format(formatter);
 				System.out.println("currtime="+currtime);
-				Transaction t = new Transaction();
-				try {
-					tm.getDBThread(t.getSQLQueries(currtime));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				
+				new Thread(new Runnable() {
+					public void run() {
+						Transaction t = new Transaction();
+						ArrayList<String> q = null;
+						try {
+							q = t.getSQLQueries(currtime);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						int temp = -1;
+						while(temp==-1)
+						{
+							temp = tm.getDBThread(q);
+							//System.out.println("received " + temp);
+							if(temp==-1)
+							{
+								try {
+									Thread.sleep(20);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}).start();
 				//System.out.println("Inside timer");
 			}
 		}, 0, 42);
@@ -109,6 +136,7 @@ public class Simulator {
 
 	static void generateResult() {
 		//System.out.println(timeList.toString());
+		System.out.println();
 		int size = timeList.size();
 		System.out.println("size="+size);
 		long startTime = timeList.get(0).startTime;

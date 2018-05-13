@@ -8,6 +8,7 @@ public class Transaction_DB implements Runnable {
 	private ArrayList<String> statements;
 	private String sql;
 	private ArrayList<TimeRecord> timeList;
+	private String lowHigh = "high";
 	
 	public Transaction_DB()
 	{
@@ -27,9 +28,10 @@ public class Transaction_DB implements Runnable {
 			long startTime = System.currentTimeMillis();
 			
 			//for loop till statements.size()
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/low_test?user=root&password=1004&useSSL=false");
+			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+lowHigh+"_test?user=root&password=1004&useSSL=false");
 			connect.setAutoCommit(false); // autocommit off
-			connect.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); //Level 0
+			connect.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); //Level 
+			connect.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED); //Level 1
 			for(String sql : statements) {
 				this.sql = sql;
 				PreparedStatement statement = connect.prepareStatement(sql);

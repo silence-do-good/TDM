@@ -1,9 +1,7 @@
 import java.util.ArrayList;
 
 public class ThreadManager {
-	//private int numberOfThreads = 100;
-	private int available = 200;
-	//private int numberOfThreadsExecuted = 0;
+	private int available = 150;
 	private ArrayList<TimeRecord> timeList;
 	public ThreadManager(ArrayList<TimeRecord> timeList) {
 		this.timeList = timeList;

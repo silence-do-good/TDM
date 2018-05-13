@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Transaction {
 	//private int transactionunit = 10;
 	//private int maxconns = 10;
-	String basefolder = "dump\\low";
+	String basefolder = "dump\\high";
 	String thermo="thermometerobservation";
 	String wemo = "wemoobservation";
 	String wifiap = "wifiapobservation";
@@ -144,6 +144,7 @@ public class Transaction {
 	    		 if(query.length()>0) {
 	    			 //only for MySQL
 	    			 query = query.replaceAll("=ANY\\(array\\[", " in \\(");
+	    			 query = query.replaceAll("=.ANY\\(array\\[", " in \\(");
 	    			 query = query.replaceAll("\\]\\)", "\\)");
 	    			 ret.add(query);
 	    		 }
@@ -153,14 +154,5 @@ public class Transaction {
 		 
 		
 		return ret;
-	}
-	public  void processTx(String args) throws FileNotFoundException
-	{
-		Transaction t = new Transaction();
-		try {
-			t.getSQLQueries("2017-11-08 23:03:06");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
