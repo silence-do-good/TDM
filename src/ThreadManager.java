@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 
 public class ThreadManager {
-	private int available = 150;
+	private int available = 120;
 	private ArrayList<TimeRecord> timeList;
-	public ThreadManager(ArrayList<TimeRecord> timeList) {
+	private String lowHigh;
+	public ThreadManager(ArrayList<TimeRecord> timeList, String lowHigh) {
 		this.timeList = timeList;
+		this.lowHigh = lowHigh;
 	}
 	
 	public int isThreadAvailable()
@@ -13,35 +15,32 @@ public class ThreadManager {
 			return 0;
 		return -1;
 	}
-	public int getDBThread(ArrayList<String> input)
+	
+	public boolean getDBThread(ArrayList<String> input)
 	{
 		//System.out.println("1 available="+available);
 		synchronized(this)
 		{
-			if(available <= 0)
-			{
-				return -1;
-			}
+			if(available <= 0) return false;
 			available -= 1;
 		}
 		//System.out.println("2 available="+available);
-		Transaction_DB tr = new Transaction_DB(input, timeList);
+		Transaction_DB tr = new Transaction_DB(input, timeList, lowHigh);
 		Thread t = new Thread(tr);
 		t.start();
 		//System.out.println("available="+available);
 		try {
 			t.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//System.out.println("4 available="+available);
 		synchronized(this)
 		{
-				// add time taken also here....
+			// add time taken also here....
 			available += 1;
 		}
 		//System.out.println("5 available="+available);
-		return 0;
+		return true;
 	}
 }

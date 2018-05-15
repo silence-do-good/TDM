@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class Transaction {
 	//private int transactionunit = 10;
 	//private int maxconns = 10;
-	String basefolder = "dump\\high";
 	String thermo="thermometerobservation";
 	String wemo = "wemoobservation";
 	String wifiap = "wifiapobservation";
@@ -17,8 +16,9 @@ public class Transaction {
 	String pres= "presence";
 	
 	
-	public ArrayList<String> getSQLQueries(String timestamp) throws FileNotFoundException, ParseException
+	public ArrayList<String> getSQLQueries(String timestamp, String lowHigh) throws FileNotFoundException, ParseException
 	{
+		String basefolder = "dump\\" + lowHigh;
 		ArrayList<String> ret=new ArrayList<String>();
 		//String pattern = "\\d+-\\d+-\\d+";
 		//Pattern p =Pattern.compile(pattern);
@@ -46,26 +46,19 @@ public class Transaction {
 	     int hours=Integer.parseInt(hstring);
 	     int csvnumber = (hours*60 + minute)/3;
 	     String csvtemp = Integer.toString(csvnumber);
-	     if(csvtemp.length()==1)
-	    	 csvtemp="00"+csvtemp;
-	     else if(csvtemp.length()==2)
-	    	 csvtemp="0"+csvtemp;
+	     if(csvtemp.length()==1) csvtemp="00"+csvtemp;
+	     else if(csvtemp.length()==2) csvtemp="0"+csvtemp;
 	     final String csvs = csvtemp;
-	     
 	     
 	     //int sqlnumber = (hours*60 + minute);
 	     final String sqls = hstring+mstring;
 	     boolean ismultipleof3=false;
-	     if((float)csvnumber == (float)(hours*60 + minute)/3)
-	    	 ismultipleof3=true;
+	     if((float)csvnumber == (float)(hours*60 + minute)/3) ismultipleof3=true;
 	     final boolean ism = ismultipleof3;
 	     //System.out.println(minute + " " + hours);
-	     File[] files = f.listFiles(new FilenameFilter() {
-			
+	     File[] files = f.listFiles(new FilenameFilter() {			
 			public boolean accept(File arg0, String arg1) {
-				// TODO Auto-generated method stub
-				if(ism)
-					return arg1.endsWith(".csv") && arg1.contains(csvs);
+				if(ism) return arg1.endsWith(".csv") && arg1.contains(csvs);
 				return false;
 			}
 		});

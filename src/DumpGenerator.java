@@ -27,11 +27,11 @@ public class DumpGenerator {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date(117, 10, 8)); //2017-11-08
 			
-			for(int d=9; d<=27; d++) {
+			for(int d=8; d<=27; d++) {
 				String day = "day"+String.format("%02d", d);
 				for(int seq=0; seq<480; seq++) {
 					String seqs = String.format("%03d", seq);
-					System.out.println(day+"_"+seq);
+					System.out.println(day+"_"+seqs);
 					
 					Timestamp startT = new Timestamp(cal.getTimeInMillis());
 					cal.add(Calendar.MINUTE, 3);
@@ -173,6 +173,7 @@ public class DumpGenerator {
 		}
 		
 		//select queries.txt
+		/*
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 			
@@ -197,5 +198,6 @@ public class DumpGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 }
