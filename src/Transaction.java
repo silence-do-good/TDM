@@ -1,11 +1,18 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 public class Transaction {
 	//private int transactionunit = 10;
 	//private int maxconns = 10;
@@ -76,14 +83,14 @@ public class Transaction {
 	    	 String fpath=files[i].getAbsolutePath();
 	    	 //System.out.println(fpath);
 	    	 Scanner s = new Scanner(new File(fpath));
+	    	 //BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fpath)));
+	    	 //StringTokenizer st = new StringTokenizer(reader.readLine(),",|\\n");
 	    	 s.useDelimiter(",|\\n");
 	    	 ArrayList<String> vals = new ArrayList<String>();
 	    	 //int x=0;
 	    	 while(s.hasNext())
 	    	 {
-	    		 
 	    		 vals.add("'"+s.next().trim()+"'");
-	    		 //System.out.println(vals.get(x++));
 	    	 }
 	    	 int j=0;
 	    	 int nattrs=0;

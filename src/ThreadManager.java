@@ -1,46 +1,54 @@
 import java.util.ArrayList;
 
 public class ThreadManager {
-	private int available = 120;
+	private int available;
 	private ArrayList<TimeRecord> timeList;
 	private String lowHigh;
-	public ThreadManager(ArrayList<TimeRecord> timeList, String lowHigh) {
+	private int isolationLevel;
+	private int commit;
+	
+	public long noConflicts, noCommits;
+	
+	public ThreadManager(ArrayList<TimeRecord> timeList, String lowHigh, int available, int isolationLevel, int commit) {
 		this.timeList = timeList;
 		this.lowHigh = lowHigh;
+		this.available = available;
+		this.isolationLevel = isolationLevel;
+		this.commit = commit;
+		this.noConflicts = 0;
 	}
 	
-	public int isThreadAvailable()
-	{
-		if(available>0)
-			return 0;
-		return -1;
-	}
-	
-	public boolean getDBThread(ArrayList<String> input)
-	{
-		//System.out.println("1 available="+available);
-		synchronized(this)
-		{
-			if(available <= 0) return false;
-			available -= 1;
+	synchronized private boolean modifyAvailable(boolean incdec) {
+		if(incdec==false){
+			if(available>0)	{
+				available--;
+				return true;
+			}
+			return false;
 		}
-		//System.out.println("2 available="+available);
-		Transaction_DB tr = new Transaction_DB(input, timeList, lowHigh);
+		available++;
+		return true;
+	}
+	
+	synchronized void numberofConflicts(long x)	{
+		noConflicts += x;
+	}
+	
+	synchronized void numberofCommits(long x) {
+		noCommits += x;
+	}
+	
+	public boolean getDBThread(ArrayList<String> input)	{
+		if(!modifyAvailable(false)) return false;		
+		Transaction_DB tr = new Transaction_DB(input, timeList, lowHigh, isolationLevel, commit, this);
 		Thread t = new Thread(tr);
 		t.start();
-		//System.out.println("available="+available);
 		try {
 			t.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		//System.out.println("4 available="+available);
-		synchronized(this)
-		{
-			// add time taken also here....
-			available += 1;
-		}
-		//System.out.println("5 available="+available);
+		}		
+		modifyAvailable(true);
 		return true;
 	}
 }
